@@ -1,12 +1,20 @@
-let form=document.querySelector("form");
+let btn=document.querySelector("button");
 
-form.addEventListener("submit",function(event){
-    event.preventDefault();
-    let user=document.querySelector("#user");
-    let pass=document.querySelector("#pass");
+btn.addEventListener("click",async()=>{
+    let fact=await getFacts();
+    // console.log(fact);
+    let p=document.querySelector("#result");
+    p.innerText=fact;
+});
 
-    console.log(user.value);
-    console.log(pass.value);
+let url="https://catfact.ninja/fact/";
 
-    alert(`Hi ${user.value},your password is set to ${pass.value}`);
-})
+async function getFacts(){
+    try{
+        let res=await axios.get(url);
+        return res.data.fact;
+    }catch (e){
+        console.log("error - ",e);
+        return "No fact found"
+    }
+}
